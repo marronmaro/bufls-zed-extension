@@ -1,0 +1,18 @@
+id = "bufls-zed-extension"
+
+name = "Buf LSP"
+
+version = "0.0.1"
+
+schema_version = 1
+
+authors = ["Marronmaro <>"]
+
+description = "bufls extension"
+
+repository = "https://github.com/marronmaro/bufls-zed-extension"
+
+[language_servers.bufls]
+name = "bufls"
+
+languages = ["Proto"]
