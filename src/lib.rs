@@ -1,5 +1,5 @@
 use zed::LanguageServerId;
-use zed_extension_api as zed;
+use zed_extension_api::{self as zed, serde_json, settings::LspSettings};
 
 struct BuflsZedExtension {}
 
@@ -27,6 +27,18 @@ impl zed::Extension for BuflsZedExtension {
             }),
             None => Err("buf in not found.".into()),
         }
+    }
+
+    fn language_server_initialization_options(
+        &mut self,
+        language_server_id: &LanguageServerId,
+        worktree: &zed::Worktree,
+    ) -> Result<Option<serde_json::Value>, String> {
+        let settings = LspSettings::for_worktree(language_server_id.as_ref(), worktree)
+            .ok()
+            .and_then(|lsp_settings| lsp_settings.initialization_options.clone())
+            .unwrap_or_default();
+        Ok(Some(settings))
     }
 }
 
